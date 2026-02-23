@@ -5,10 +5,12 @@ import os
 import sys
 import textwrap
 from pathlib import Path
+from urllib.parse import urljoin
 from uuid import uuid4
 
 from .manifest import GameManifest, compute_rom_hash
 from .session_link import SessionLink
+from .emulator import launch_emulator
 
 
 DEFAULT_CORE = "snes9x_libretro"
@@ -36,12 +38,44 @@ def cmd_host(args: argparse.Namespace) -> int:
     )
 
     session_id = args.session_id or uuid4().hex[:12]
+
+    # Always persist a local copy of the manifest for debugging / tooling.
     session_dir = Path(args.session_dir).expanduser().resolve()
     session_dir.mkdir(parents=True, exist_ok=True)
     manifest_path = session_dir / f"{session_id}.json"
-    manifest_path.write_text(manifest.to_json(), encoding="utf-8")
+    manifest_json = manifest.to_json()
+    manifest_path.write_text(manifest_json, encoding="utf-8")
 
-    link = SessionLink(session_id=session_id, manifest_path=str(manifest_path))
+    signal_url: str | None = None
+    if args.signal_url:
+        # POST manifest to signaling server: POST /sessions/<session_id>
+        try:
+            import urllib.request
+
+            base = args.signal_url.rstrip("/") + "/"
+            endpoint = urljoin(base, f"sessions/{session_id}")
+            req = urllib.request.Request(
+                endpoint,
+                data=manifest_json.encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=5) as resp:  # noqa: S310
+                if resp.status not in (200, 201):
+                    print(
+                        f"[braid] Warning: signaling server returned HTTP {resp.status}",
+                        file=sys.stderr,
+                    )
+                else:
+                    signal_url = args.signal_url
+        except Exception as exc:  # pragma: no cover - depends on network env
+            print(f"[braid] Warning: failed to contact signaling server: {exc}", file=sys.stderr)
+
+    link = SessionLink(
+        session_id=session_id,
+        signal_url=signal_url,
+        manifest_path=None if signal_url else str(manifest_path),
+    )
 
     print("[braid] Session created")
     print(f"  Game:       {manifest.game_title}")
@@ -52,8 +86,15 @@ def cmd_host(args: argparse.Namespace) -> int:
     print("Share this link with your friend:")
     print(link.to_uri())
 
-    # Stub: in the real implementation we'd also spin up signaling / netcode
-    # here and eventually launch the emulator with --host / --connect.
+    # Optionally launch the emulator on the host side.
+    if args.launch_emulator:
+        launch_emulator(
+            emulator_bin=args.emulator_bin,
+            core=manifest.emulator_core,
+            rom_path=rom_path,
+            role="host",
+            dry_run=args.dry_run,
+        )
 
     return 0
 
@@ -65,15 +106,42 @@ def cmd_join(args: argparse.Namespace) -> int:
         print(f"[braid] Invalid braid link: {exc}", file=sys.stderr)
         return 1
 
-    manifest_path = Path(link.manifest_path).expanduser().resolve()
-    if not manifest_path.is_file():
-        print(f"[braid] Manifest not found: {manifest_path}", file=sys.stderr)
-        print("Hint: for this prototype, the manifest must be accessible on your filesystem.")
+    # Retrieve manifest either from signaling server or local filesystem.
+    manifest_json: str | None = None
+
+    if link.signal_url:
+        try:
+            import urllib.request
+
+            base = link.signal_url.rstrip("/") + "/"
+            endpoint = urljoin(base, f"sessions/{link.session_id}")
+            with urllib.request.urlopen(endpoint, timeout=5) as resp:  # noqa: S310
+                if resp.status != 200:
+                    print(
+                        f"[braid] Failed to fetch manifest from signaling server (HTTP {resp.status})",
+                        file=sys.stderr,
+                    )
+                    return 1
+                manifest_json = resp.read().decode("utf-8")
+        except Exception as exc:  # pragma: no cover - depends on network env
+            print(f"[braid] Error contacting signaling server: {exc}", file=sys.stderr)
+            return 1
+    elif link.manifest_path:
+        manifest_path = Path(link.manifest_path).expanduser().resolve()
+        if not manifest_path.is_file():
+            print(f"[braid] Manifest not found: {manifest_path}", file=sys.stderr)
+            print(
+                "Hint: for this prototype, the manifest must be accessible on your filesystem.",
+            )
+            return 1
+        manifest_json = manifest_path.read_text(encoding="utf-8")
+    else:  # pragma: no cover - guarded by SessionLink
+        print("[braid] Invalid SessionLink: no signaling URL or manifest path", file=sys.stderr)
         return 1
 
     from .manifest import GameManifest  # local import to avoid cycles
 
-    manifest = GameManifest.from_json(manifest_path.read_text(encoding="utf-8"))
+    manifest = GameManifest.from_json(manifest_json)
 
     print("[braid] Joining session")
     print(f"  Session ID: {link.session_id}")
@@ -81,6 +149,7 @@ def cmd_join(args: argparse.Namespace) -> int:
     print(f"  Expected hash: {manifest.rom_hash}")
     print(f"  Core:       {manifest.emulator_core}")
 
+    rom_path: Path | None = None
     if args.rom:
         rom_path = Path(args.rom).expanduser().resolve()
         if not rom_path.is_file():
@@ -98,14 +167,23 @@ def cmd_join(args: argparse.Namespace) -> int:
     else:
         print("[braid] No ROM provided for verification (prototype).")
 
-    # Stub: Here we would contact a signaling server, perform NAT traversal,
-    # exchange save state, and finally launch the emulator subprocess.
+    # Optionally launch the emulator on the peer side.
+    if args.launch_emulator:
+        if not rom_path:
+            print("[braid] Cannot launch emulator without --rom", file=sys.stderr)
+            return 1
+        if not args.connect_address:
+            print("[braid] --connect-address is required when launching the peer emulator", file=sys.stderr)
+            return 1
 
-    print()
-    print("[braid] (Prototype) At this point, Braid would:")
-    print("  - Perform NAT traversal / connect to relay if needed")
-    print("  - Exchange real-time save state with the host")
-    print("  - Launch the emulator with a --connect argument")
+        launch_emulator(
+            emulator_bin=args.emulator_bin,
+            core=manifest.emulator_core,
+            rom_path=rom_path,
+            role="peer",
+            connect_address=args.connect_address,
+            dry_run=args.dry_run,
+        )
 
     return 0
 
@@ -137,14 +215,52 @@ def build_parser() -> argparse.ArgumentParser:
     p_host.add_argument(
         "--session-dir",
         default=os.path.join(os.getcwd(), "sessions"),
-        help="Directory where session manifests are stored",
+        help="Directory where session manifests are stored locally",
     )
     p_host.add_argument("--session-id", help="Override auto-generated session ID")
+    p_host.add_argument(
+        "--signal-url",
+        help="Base URL of signaling server, e.g. http://localhost:8080",
+    )
+    p_host.add_argument(
+        "--launch-emulator",
+        action="store_true",
+        help="Launch emulator as host after creating the session",
+    )
+    p_host.add_argument(
+        "--emulator-bin",
+        default="retroarch",
+        help="Emulator binary to launch (default: retroarch)",
+    )
+    p_host.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Print emulator command without executing it",
+    )
     p_host.set_defaults(func=cmd_host)
 
     p_join = sub.add_parser("join", help="Join an existing Braid session from a braid:// link")
     p_join.add_argument("link", help="braid:// session link")
-    p_join.add_argument("--rom", help="Path to local ROM for hash verification")
+    p_join.add_argument("--rom", help="Path to local ROM for hash verification and launch")
+    p_join.add_argument(
+        "--launch-emulator",
+        action="store_true",
+        help="Launch emulator as peer after verifying manifest/ROM",
+    )
+    p_join.add_argument(
+        "--emulator-bin",
+        default="retroarch",
+        help="Emulator binary to launch (default: retroarch)",
+    )
+    p_join.add_argument(
+        "--connect-address",
+        help="Host address to pass to emulator --connect (e.g. 12.34.56.78)",
+    )
+    p_join.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Print emulator command without executing it",
+    )
     p_join.set_defaults(func=cmd_join)
 
     return parser

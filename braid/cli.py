@@ -7,6 +7,7 @@ import textwrap
 from pathlib import Path
 from urllib.parse import urljoin
 from uuid import uuid4
+import base64
 
 from .manifest import GameManifest, compute_rom_hash
 from .session_link import SessionLink
@@ -70,6 +71,37 @@ def cmd_host(args: argparse.Namespace) -> int:
                     signal_url = args.signal_url
         except Exception as exc:  # pragma: no cover - depends on network env
             print(f"[braid] Warning: failed to contact signaling server: {exc}", file=sys.stderr)
+
+    # If we have a signaling server and a state file, push a fake state blob
+    # for this session so peers can auto-fetch it.
+    if signal_url and getattr(args, "state_file", None):
+        state_path = Path(args.state_file).expanduser().resolve()
+        if not state_path.is_file():
+            print(f"[braid] State file not found: {state_path}", file=sys.stderr)
+        else:
+            try:
+                import urllib.request
+                import json as _json
+
+                data = state_path.read_bytes()
+                state_b64 = base64.b64encode(data).decode("ascii")
+                base = signal_url.rstrip("/") + "/"
+                endpoint = urljoin(base, f"state/{session_id}")
+                body = _json.dumps({"state": state_b64}).encode("utf-8")
+                req = urllib.request.Request(
+                    endpoint,
+                    data=body,
+                    headers={"Content-Type": "application/json"},
+                    method="POST",
+                )
+                with urllib.request.urlopen(req, timeout=5) as resp:  # noqa: S310
+                    if resp.status not in (200, 201):
+                        print(
+                            f"[braid] Warning: failed to push state blob (HTTP {resp.status})",
+                            file=sys.stderr,
+                        )
+            except Exception as exc:  # pragma: no cover - network/env dependent
+                print(f"[braid] Warning: error pushing state blob: {exc}", file=sys.stderr)
 
     link = SessionLink(
         session_id=session_id,
@@ -149,6 +181,37 @@ def cmd_join(args: argparse.Namespace) -> int:
     print(f"  Expected hash: {manifest.rom_hash}")
     print(f"  Core:       {manifest.emulator_core}")
 
+    # If requested and we have a signaling URL, try to pull a state blob for
+    # this session before launching the emulator to approximate Instant Join.
+    if getattr(args, "auto_state", False) and link.signal_url:
+        try:
+            import urllib.request
+            import json as _json
+
+            base = link.signal_url.rstrip("/") + "/"
+            endpoint = urljoin(base, f"state/{link.session_id}")
+            with urllib.request.urlopen(endpoint, timeout=5) as resp:  # noqa: S310
+                if resp.status == 404:
+                    print("[braid] No save-state found for this session (404).")
+                elif resp.status != 200:
+                    print(
+                        f"[braid] Failed to fetch save-state (HTTP {resp.status})",
+                        file=sys.stderr,
+                    )
+                else:
+                    payload = _json.loads(resp.read().decode("utf-8"))
+                    state_b64 = payload.get("state")
+                    if isinstance(state_b64, str):
+                        data = base64.b64decode(state_b64.encode("ascii"))
+                        out_path = Path(args.state_output or f"{link.session_id}.state").resolve()
+                        out_path.write_bytes(data)
+                        print("[braid] Pulled save-state blob for session.")
+                        print(f"  File: {out_path} ({len(data)} bytes)")
+                    else:
+                        print("[braid] Invalid save-state payload from server.", file=sys.stderr)
+        except Exception as exc:  # pragma: no cover - network/env dependent
+            print(f"[braid] Warning: error fetching save-state: {exc}", file=sys.stderr)
+
     rom_path: Path | None = None
     if args.rom:
         rom_path = Path(args.rom).expanduser().resolve()
@@ -223,6 +286,10 @@ def build_parser() -> argparse.ArgumentParser:
         help="Base URL of signaling server, e.g. http://localhost:8080",
     )
     p_host.add_argument(
+        "--state-file",
+        help="Optional path to a small save-state file to upload via signaling",
+    )
+    p_host.add_argument(
         "--launch-emulator",
         action="store_true",
         help="Launch emulator as host after creating the session",
@@ -257,13 +324,126 @@ def build_parser() -> argparse.ArgumentParser:
         help="Host address to pass to emulator --connect (e.g. 12.34.56.78)",
     )
     p_join.add_argument(
+        "--auto-state",
+        action="store_true",
+        help="Attempt to auto-fetch a save-state blob via signaling before launch",
+    )
+    p_join.add_argument(
+        "--state-output",
+        help="Where to write fetched save-state (default: <session_id>.state)",
+    )
+    p_join.add_argument(
         "--dry-run",
         action="store_true",
         help="Print emulator command without executing it",
     )
     p_join.set_defaults(func=cmd_join)
 
+    # Simple dev-only commands to push/pull a fake save-state blob through the
+    # signaling server, approximating the "Instant Join" path described in the
+    # design document.
+
+    p_state = sub.add_parser("state", help="Experimental save-state helpers (prototype)")
+    state_sub = p_state.add_subparsers(dest="state_cmd", required=True)
+
+    p_push = state_sub.add_parser("push", help="Push a fake save-state file to signaling server")
+    p_push.add_argument("session_id", help="Session id to associate the state with")
+    p_push.add_argument("signal_url", help="Base URL of signaling server, e.g. http://localhost:8080")
+    p_push.add_argument("file", help="Path to a small binary state file to upload")
+    p_push.set_defaults(func=cmd_state_push)
+
+    p_pull = state_sub.add_parser("pull", help="Fetch a save-state blob from signaling server")
+    p_pull.add_argument("session_id", help="Session id to fetch state for")
+    p_pull.add_argument("signal_url", help="Base URL of signaling server, e.g. http://localhost:8080")
+    p_pull.set_defaults(func=cmd_state_pull)
+
     return parser
+
+
+def cmd_state_push(args: argparse.Namespace) -> int:
+    """Push a fake save-state binary through the signaling server.
+
+    This is a development helper that lets you experiment with the
+    state-exchange path (host → server → peer) using arbitrary small files.
+    """
+
+    state_path = Path(args.file).expanduser().resolve()
+    if not state_path.is_file():
+        print(f"[braid] State file not found: {state_path}", file=sys.stderr)
+        return 1
+
+    data = state_path.read_bytes()
+    state_b64 = base64.b64encode(data).decode("ascii")
+
+    try:
+        import urllib.request
+        import json as _json
+
+        base = args.signal_url.rstrip("/") + "/"
+        endpoint = urljoin(base, f"state/{args.session_id}")
+        body = _json.dumps({"state": state_b64}).encode("utf-8")
+        req = urllib.request.Request(
+            endpoint,
+            data=body,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=5) as resp:  # noqa: S310
+            if resp.status not in (200, 201):
+                print(f"[braid] Failed to push state (HTTP {resp.status})", file=sys.stderr)
+                return 1
+    except Exception as exc:  # pragma: no cover - network env dependent
+        print(f"[braid] Error contacting signaling server: {exc}", file=sys.stderr)
+        return 1
+
+    print("[braid] Pushed save-state blob to signaling server.")
+    print(f"  Session: {args.session_id}")
+    print(f"  File:    {state_path}")
+    print(f"  Size:    {len(data)} bytes (base64 length {len(state_b64)})")
+    return 0
+
+
+def cmd_state_pull(args: argparse.Namespace) -> int:
+    """Fetch a fake save-state blob from the signaling server.
+
+    This is a development helper that pulls the base64 state for a session and
+    writes it out as a binary file (or prints its size if stdout only).
+    """
+
+    try:
+        import urllib.request
+        import json as _json
+
+        base = args.signal_url.rstrip("/") + "/"
+        endpoint = urljoin(base, f"state/{args.session_id}")
+        with urllib.request.urlopen(endpoint, timeout=5) as resp:  # noqa: S310
+            if resp.status != 200:
+                print(
+                    f"[braid] Failed to fetch state from signaling server (HTTP {resp.status})",
+                    file=sys.stderr,
+                )
+                return 1
+            payload = _json.loads(resp.read().decode("utf-8"))
+    except Exception as exc:  # pragma: no cover - network env dependent
+        print(f"[braid] Error contacting signaling server: {exc}", file=sys.stderr)
+        return 1
+
+    state_b64 = payload.get("state")
+    if not isinstance(state_b64, str):
+        print("[braid] Invalid state payload from server", file=sys.stderr)
+        return 1
+
+    data = base64.b64decode(state_b64.encode("ascii"))
+
+    # For now we always write to a file named <session_id>.state in CWD.
+    out_path = Path(f"{args.session_id}.state").resolve()
+    out_path.write_bytes(data)
+
+    print("[braid] Pulled save-state blob from signaling server.")
+    print(f"  Session: {args.session_id}")
+    print(f"  File:    {out_path}")
+    print(f"  Size:    {len(data)} bytes")
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:

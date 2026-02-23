@@ -3,7 +3,7 @@
 Project Braid is a lightweight wrapper and orchestration layer for retro emulators.
 
 This repo currently contains a **prototype CLI** that implements the early pieces of
-the design you described:
+the design:
 
 - Generate a JSON manifest for a ROM (title, hash, core, sync settings).
 - Create a `braid://`-style session link that encodes a session id + manifest path.
@@ -60,17 +60,6 @@ The join flow will:
 
 At this point the CLI prints what would happen next (NAT traversal, state sync,
 emulator launch) but does not yet perform those actions.
-
-## How this maps to the design doc
-
-- **Manifest Verification** – Implemented as `GameManifest` in `braid/manifest.py` and
-	used in both `host` and `join` commands.
-- **Session Link ("Ghost-Link")** – Represented by `SessionLink` in
-	`braid/session_link.py`, currently encoding `session_id` + local manifest path.
-- **Core Management** – The manifest records the Libretro core name (default:
-	`snes9x_libretro`); automatic core download is not yet implemented.
-- **NAT Traversal, Relay, Rollback Netcode, State Injection, Virtual Controller,
-	Cloud Sync** – These are planned next steps and are currently stubbed out.
 
 ## Next steps / ideas
 

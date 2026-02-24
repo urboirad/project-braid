@@ -3,7 +3,7 @@ use crate::hash::compute_rom_hash;
 use crate::manifest::GameManifest;
 use crate::nat::{negotiate_peer, run_nat_signaling_server};
 use crate::session_link::SessionLink;
-use crate::signaling::{get_manifest, post_manifest};
+use crate::signaling::{get_manifest, get_state, post_manifest, post_state};
 use clap::{Parser, Subcommand};
 use reqwest::Client;
 use std::path::PathBuf;
@@ -96,6 +96,32 @@ pub enum Commands {
         #[arg(long, default_value = "0.0.0.0:40000")]
         bind: String,
     },
+
+    /// Development helpers for pushing/pulling save-state blobs via signaling
+    State {
+        #[command(subcommand)]
+        cmd: StateCommands,
+    },
+}
+
+#[derive(Subcommand, Debug)]
+pub enum StateCommands {
+    /// Push a fake save-state file to signaling server
+    Push {
+        /// Session id to associate the state with
+        session_id: String,
+        /// Base URL of signaling server, e.g. http://localhost:8080
+        signal_url: String,
+        /// Path to a small binary state file to upload
+        file: PathBuf,
+    },
+    /// Fetch a save-state blob from signaling server
+    Pull {
+        /// Session id to fetch state for
+        session_id: String,
+        /// Base URL of signaling server, e.g. http://localhost:8080
+        signal_url: String,
+    },
 }
 
 pub async fn run(cli: Cli) -> Result<(), String> {
@@ -155,6 +181,7 @@ pub async fn run(cli: Cli) -> Result<(), String> {
             .await
         }
         Commands::NatServer { bind } => run_nat_signaling_server(&bind).await,
+        Commands::State { cmd } => run_state(cmd).await,
     }
 }
 
@@ -166,7 +193,7 @@ async fn run_host(
     session_dir: PathBuf,
     session_id: Option<String>,
     signal_url: Option<String>,
-    _state_file: Option<PathBuf>,
+    state_file: Option<PathBuf>,
     do_launch: bool,
     emulator_bin: String,
     dry_run: bool,
@@ -206,6 +233,20 @@ async fn run_host(
             eprintln!("[braid-rs] warning: {err}");
         } else {
             signal_url_effective = Some(url.clone());
+
+            // If a state file is provided, upload it via /state/<session_id>
+            if let Some(ref state_path) = state_file {
+                match std::fs::read(state_path) {
+                    Ok(bytes) => {
+                        if let Err(err) = post_state(&client, url, &session_id, &bytes).await {
+                            eprintln!("[braid-rs] warning: failed to push state blob: {err}");
+                        }
+                    }
+                    Err(err) => {
+                        eprintln!("[braid-rs] warning: state file not readable: {err}");
+                    }
+                }
+            }
         }
     }
 
@@ -260,15 +301,16 @@ async fn run_join(
     do_launch: bool,
     emulator_bin: String,
     connect_address: Option<String>,
-    _auto_state: bool,
-    _state_output: Option<PathBuf>,
+    auto_state: bool,
+    state_output: Option<PathBuf>,
     dry_run: bool,
     nat_server: Option<String>,
 ) -> Result<(), String> {
     let link = SessionLink::parse(&link_raw).map_err(|e| e.to_string())?;
 
+    let client = Client::new();
+
     let manifest_json = if let Some(ref url) = link.signal_url {
-        let client = Client::new();
         get_manifest(&client, url, &link.session_id).await?
     } else if let Some(ref manifest_path) = link.manifest_path {
         std::fs::read_to_string(manifest_path)
@@ -285,6 +327,35 @@ async fn run_join(
     println!("  Game:       {}", manifest.game_title);
     println!("  Expected hash: {}", manifest.rom_hash);
     println!("  Core:       {}", manifest.emulator_core);
+
+    // Optional auto-fetch of a small save-state blob via signaling to
+    // approximate an "Instant Join" path.
+    if auto_state {
+        if let Some(ref url) = link.signal_url {
+            match get_state(&client, url, &link.session_id).await {
+                Ok(data) => {
+                    let out_path = state_output
+                        .unwrap_or_else(|| PathBuf::from(format!("{}.state", link.session_id)));
+                    if let Err(err) = std::fs::write(&out_path, &data) {
+                        println!(
+                            "[braid-rs] warning: error writing save-state to {}: {err}",
+                            out_path.display()
+                        );
+                    } else {
+                        println!("[braid-rs] Pulled save-state blob for session.");
+                        println!("  File: {} ({} bytes)", out_path.display(), data.len());
+                    }
+                }
+                Err(err) => {
+                    println!("[braid-rs] warning: error fetching save-state: {err}");
+                }
+            }
+        } else {
+            println!(
+                "[braid-rs] auto-state requested, but link does not carry a signaling URL."
+            );
+        }
+    }
 
     let mut rom_path_verified: Option<PathBuf> = None;
     if let Some(rom_path) = rom {

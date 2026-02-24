@@ -1,0 +1,10 @@
+/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/deps/accesskit_consumer-42ac830c35d4378e.d: /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/lib.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/tree.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/node.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/filters.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/iterators.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/text.rs
+
+/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/deps/libaccesskit_consumer-42ac830c35d4378e.rmeta: /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/lib.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/tree.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/node.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/filters.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/iterators.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/text.rs
+
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/lib.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/tree.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/node.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/filters.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/iterators.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/accesskit_consumer-0.31.0/src/text.rs:

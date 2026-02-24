@@ -79,9 +79,11 @@ pub async fn negotiate_peer(
     server_addr: &str,
     session_id: &str,
 ) -> Result<Option<SocketAddr>, String> {
-    let socket = UdpSocket::bind("0.0.0.0:0")
-        .await
-        .map_err(|e| format!("failed to bind local UDP socket: {e}"))?;
+    let socket = Arc::new(
+        UdpSocket::bind("0.0.0.0:0")
+            .await
+            .map_err(|e| format!("failed to bind local UDP socket: {e}"))?,
+    );
 
     let server: SocketAddr = server_addr
         .parse()
@@ -112,7 +114,7 @@ pub async fn negotiate_peer(
                         .map_err(|e| format!("invalid peer address: {e}"))?;
 
                     // Basic heartbeats in the background to keep mappings open.
-                    let hb_socket = socket.try_clone().map_err(|e| format!("clone failed: {e}"))?;
+                    let hb_socket = Arc::clone(&socket);
                     tokio::spawn(async move {
                         let msg = b"ping";
                         loop {

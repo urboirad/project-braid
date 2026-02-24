@@ -185,6 +185,44 @@ pub async fn run(cli: Cli) -> Result<(), String> {
     }
 }
 
+async fn run_state(cmd: StateCommands) -> Result<(), String> {
+    let client = Client::new();
+
+    match cmd {
+        StateCommands::Push {
+            session_id,
+            signal_url,
+            file,
+        } => {
+            let data = std::fs::read(&file)
+                .map_err(|e| format!("failed to read state file: {e}"))?;
+            post_state(&client, &signal_url, &session_id, &data)
+                .await
+                .map_err(|e| format!("failed to push state: {e}"))?;
+            println!(
+                "[braid-rs] pushed state blob for session {} ({} bytes)",
+                session_id,
+                data.len()
+            );
+        }
+        StateCommands::Pull {
+            session_id,
+            signal_url,
+        } => {
+            let data = get_state(&client, &signal_url, &session_id)
+                .await
+                .map_err(|e| format!("failed to fetch state: {e}"))?;
+            println!(
+                "[braid-rs] fetched state blob for session {} ({} bytes)",
+                session_id,
+                data.len()
+            );
+        }
+    }
+
+    Ok(())
+}
+
 async fn run_host(
     rom: PathBuf,
     title: Option<String>,

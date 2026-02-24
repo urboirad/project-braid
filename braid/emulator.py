@@ -17,13 +17,13 @@ def build_retroarch_command(
     """Build a RetroArch command approximating the design document.
 
     Note: Real RetroArch netplay flags differ by version; this is a conceptual
-    stub so we can see and test how Braid would invoke it.
+    stub that makes it easy to see and test how Braid would invoke it.
     """
 
     cmd: List[str] = [emulator_bin, "-L", core]
 
     if role == "host":
-        # In a real implementation we'd likely use --host / --netplay-host.
+        # In a real implementation this would likely use --host / --netplay-host.
         cmd.append("--host")
     elif role == "peer":
         if not connect_address:
@@ -48,12 +48,12 @@ def launch_emulator(
     extra_args: list[str] | None = None,
     dry_run: bool = False,
 ) -> None:
-    """Launch RetroArch (or another emulator) if available.
+        """Launch RetroArch (or another emulator) if available.
 
-    - If `dry_run` is True, we only print the command.
-    - If the emulator binary is not found on PATH, we print the command and do
-      not attempt to execute it.
-    """
+        - If `dry_run` is True, only the command is printed.
+        - If the emulator binary is not found on PATH, the command is printed and
+            execution is skipped.
+        """
 
     cmd = build_retroarch_command(
         emulator_bin=emulator_bin,

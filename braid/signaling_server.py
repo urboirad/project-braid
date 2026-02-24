@@ -75,7 +75,7 @@ class _SignalingHandler(BaseHTTPRequestHandler):
             return
 
         if resource == "sessions":
-            # Body is raw manifest JSON; we simply store it.
+            # Body is raw manifest JSON and is stored as-is.
             _SESSION_STORE[session_id] = data
         elif resource == "state":
             # Body should be {"state": base64_string}

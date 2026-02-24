@@ -72,7 +72,7 @@ def cmd_host(args: argparse.Namespace) -> int:
         except Exception as exc:  # pragma: no cover - depends on network env
             print(f"[braid] Warning: failed to contact signaling server: {exc}", file=sys.stderr)
 
-    # If we have a signaling server and a state file, push a fake state blob
+    # If a signaling server and a state file are available, push a fake state blob
     # for this session so peers can auto-fetch it.
     if signal_url and getattr(args, "state_file", None):
         state_path = Path(args.state_file).expanduser().resolve()
@@ -181,7 +181,7 @@ def cmd_join(args: argparse.Namespace) -> int:
     print(f"  Expected hash: {manifest.rom_hash}")
     print(f"  Core:       {manifest.emulator_core}")
 
-    # If requested and we have a signaling URL, try to pull a state blob for
+    # If requested and a signaling URL is available, try to pull a state blob for
     # this session before launching the emulator to approximate Instant Join.
     if getattr(args, "auto_state", False) and link.signal_url:
         try:
@@ -435,7 +435,7 @@ def cmd_state_pull(args: argparse.Namespace) -> int:
 
     data = base64.b64decode(state_b64.encode("ascii"))
 
-    # For now we always write to a file named <session_id>.state in CWD.
+    # The current prototype always writes to a file named <session_id>.state in CWD.
     out_path = Path(f"{args.session_id}.state").resolve()
     out_path.write_bytes(data)
 

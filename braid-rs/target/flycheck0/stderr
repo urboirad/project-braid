@@ -1,5 +1,5 @@
-   0.585135333s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint: fingerprint error for braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)/Check { test: false }/TargetInner { name: "braid-rs", doc: true, ..: with_path("/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/main.rs", Edition2021) }
-   0.585196813s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-9350dfd64eecc566/bin-braid-rs`
+   0.644097865s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint: fingerprint error for braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)/Check { test: false }/TargetInner { name: "braid-rs", doc: true, ..: with_path("/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/main.rs", Edition2021) }
+   0.644144152s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-9350dfd64eecc566/bin-braid-rs`
 
 Caused by:
     No such file or directory (os error 2)
@@ -22,8 +22,8 @@ Stack backtrace:
   14: <unknown>
   15: __libc_start_main
   16: <unknown>
-   0.640766382s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint: fingerprint error for braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)/Check { test: true }/TargetInner { name: "braid-rs", doc: true, ..: with_path("/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/main.rs", Edition2021) }
-   0.640794729s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-f2487861a62a155c/test-bin-braid-rs`
+   0.678323530s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint: fingerprint error for braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)/Check { test: true }/TargetInner { name: "braid-rs", doc: true, ..: with_path("/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/main.rs", Edition2021) }
+   0.678351944s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-f2487861a62a155c/test-bin-braid-rs`
 
 Caused by:
     No such file or directory (os error 2)
@@ -46,8 +46,8 @@ Stack backtrace:
   14: <unknown>
   15: __libc_start_main
   16: <unknown>
-   0.643200684s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint: fingerprint error for braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)/Check { test: false }/TargetInner { name: "braid-rs-gui", doc: true, ..: with_path("/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/bin/gui.rs", Edition2021) }
-   0.643308590s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-d17af5934b1975aa/bin-braid-rs-gui`
+   0.681353870s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint: fingerprint error for braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)/Check { test: false }/TargetInner { name: "braid-rs-gui", doc: true, ..: with_path("/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/bin/gui.rs", Edition2021) }
+   0.681396324s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-d17af5934b1975aa/bin-braid-rs-gui`
 
 Caused by:
     No such file or directory (os error 2)
@@ -70,8 +70,8 @@ Stack backtrace:
   14: <unknown>
   15: __libc_start_main
   16: <unknown>
-   0.647769117s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint: fingerprint error for braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)/Check { test: true }/TargetInner { name: "braid-rs-gui", doc: true, ..: with_path("/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/bin/gui.rs", Edition2021) }
-   0.648364938s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-798e3e21d879e974/test-bin-braid-rs-gui`
+   0.683259307s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint: fingerprint error for braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)/Check { test: true }/TargetInner { name: "braid-rs-gui", doc: true, ..: with_path("/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/bin/gui.rs", Edition2021) }
+   0.683278910s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-798e3e21d879e974/test-bin-braid-rs-gui`
 
 Caused by:
     No such file or directory (os error 2)
@@ -95,8 +95,8 @@ Stack backtrace:
   15: __libc_start_main
   16: <unknown>
     Checking braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)
-error: could not compile `braid-rs` (bin "braid-rs-gui" test) due to 1 previous error; 1 warning emitted
-warning: build failed, waiting for other jobs to finish...
 error: could not compile `braid-rs` (bin "braid-rs-gui") due to 1 previous error; 1 warning emitted
-error: could not compile `braid-rs` (bin "braid-rs" test) due to 2 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `braid-rs` (bin "braid-rs-gui" test) due to 1 previous error; 1 warning emitted
 error: could not compile `braid-rs` (bin "braid-rs") due to 2 previous errors
+error: could not compile `braid-rs` (bin "braid-rs" test) due to 2 previous errors

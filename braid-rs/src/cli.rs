@@ -11,7 +11,7 @@ use uuid::Uuid;
 
 #[derive(Parser, Debug)]
 #[command(
-    name = "braid-rs",
+    name = "braid",
     about = "Project Braid - lightweight netplay wrapper for retro emulators (Rust prototype)",
 )]
 pub struct Cli {

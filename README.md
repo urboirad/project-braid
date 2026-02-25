@@ -25,8 +25,8 @@ Cargo will fetch automatically.
 From the project root:
 
 ```bash
-cd braid-rs
-cargo run --bin braid-rs -- --help
+chmod +x braid
+./braid --help
 ```
 
 You should see the `braid-rs` help with `host`, `join`, `nat-server`, and `state` subcommands.
@@ -34,8 +34,7 @@ You should see the `braid-rs` help with `host`, `join`, `nat-server`, and `state
 ### 1. Host a session
 
 ```bash
-cd braid-rs
-cargo run --bin braid-rs -- host /path/to/game.sfc \
+./braid host /path/to/game.sfc \
 	--session-dir ./sessions
 ```
 
@@ -51,8 +50,7 @@ For now, the manifest path is a local file path, so the joiner needs access to
 the same file (e.g., shared folder, or you copy it there manually):
 
 ```bash
-cd braid-rs
-cargo run --bin braid-rs -- join "braid://<session_id>?manifest=/abs/path/to/manifest.json" \
+./braid join "braid://<session_id>?manifest=/abs/path/to/manifest.json" \
 	--rom /path/to/game.sfc
 ```
 

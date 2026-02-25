@@ -7,7 +7,6 @@ const BRAID_SCHEME: &str = "braid";
 pub struct SessionLink {
     pub session_id: String,
     pub signal_url: Option<String>,
-    pub manifest_path: Option<String>,
 }
 
 #[derive(Debug)]
@@ -43,7 +42,6 @@ impl SessionLink {
         };
 
         let mut signal_url: Option<String> = None;
-        let mut manifest_path: Option<String> = None;
 
         for (k, v) in url.query_pairs() {
             match k.as_ref() {
@@ -52,33 +50,21 @@ impl SessionLink {
                         signal_url = Some(v.to_string());
                     }
                 }
-                "manifest" => {
-                    if !v.is_empty() {
-                        manifest_path = Some(v.to_string());
-                    }
-                }
                 _ => {}
             }
         }
 
-        if signal_url.is_none() && manifest_path.is_none() {
+        if signal_url.is_none() {
             return Err(LinkError::MissingParameters);
         }
 
-        Ok(SessionLink {
-            session_id,
-            signal_url,
-            manifest_path,
-        })
+        Ok(SessionLink { session_id, signal_url })
     }
 
     pub fn to_uri(&self) -> Result<String, LinkError> {
         let mut params = form_urlencoded::Serializer::new(String::new());
         if let Some(ref s) = self.signal_url {
             params.append_pair("signal", s);
-        }
-        if let Some(ref m) = self.manifest_path {
-            params.append_pair("manifest", m);
         }
 
         let query = params.finish();

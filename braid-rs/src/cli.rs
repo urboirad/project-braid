@@ -34,9 +34,6 @@ pub enum Commands {
         /// Rollback frame delay
         #[arg(long, default_value_t = 2)]
         frame_delay: i32,
-        /// Directory where session manifests are stored locally
-        #[arg(long, default_value = "./sessions")]
-        session_dir: PathBuf,
         /// Override auto-generated session ID
         #[arg(long)]
         session_id: Option<String>,
@@ -131,7 +128,6 @@ pub async fn run(cli: Cli) -> Result<(), String> {
             title,
             core,
             frame_delay,
-            session_dir,
             session_id,
             signal_url,
             state_file,
@@ -145,7 +141,6 @@ pub async fn run(cli: Cli) -> Result<(), String> {
                 title,
                 core,
                 frame_delay,
-                session_dir,
                 session_id,
                 signal_url,
                 state_file,
@@ -228,7 +223,6 @@ async fn run_host(
     title: Option<String>,
     core: Option<String>,
     frame_delay: i32,
-    session_dir: PathBuf,
     session_id: Option<String>,
     signal_url: Option<String>,
     state_file: Option<PathBuf>,
@@ -254,48 +248,31 @@ async fn run_host(
 
     let session_id = session_id.unwrap_or_else(|| Uuid::new_v4().to_string()[..12].to_string());
 
-    std::fs::create_dir_all(&session_dir)
-        .map_err(|e| format!("failed to create session dir: {e}"))?;
-    let manifest_path = session_dir.join(format!("{}.json", session_id));
-    let manifest_json = manifest
-        .to_json()
-        .map_err(|e| format!("failed to serialize manifest: {e}"))?;
-    std::fs::write(&manifest_path, &manifest_json)
-        .map_err(|e| format!("failed to write manifest: {e}"))?;
+    let signal_url = signal_url
+        .ok_or_else(|| "--signal-url is required now that manifests are exchanged via the signaling service".to_string())?;
 
     let client = Client::new();
-    let mut signal_url_effective: Option<String> = None;
+    post_manifest(&client, &signal_url, &session_id, &manifest)
+        .await
+        .map_err(|e| format!("failed to push manifest to signaling server: {e}"))?;
 
-    if let Some(ref url) = signal_url {
-        if let Err(err) = post_manifest(&client, url, &session_id, &manifest).await {
-            eprintln!("[braid-rs] warning: {err}");
-        } else {
-            signal_url_effective = Some(url.clone());
-
-            // If a state file is provided, upload it via /state/<session_id>
-            if let Some(ref state_path) = state_file {
-                match std::fs::read(state_path) {
-                    Ok(bytes) => {
-                        if let Err(err) = post_state(&client, url, &session_id, &bytes).await {
-                            eprintln!("[braid-rs] warning: failed to push state blob: {err}");
-                        }
-                    }
-                    Err(err) => {
-                        eprintln!("[braid-rs] warning: state file not readable: {err}");
-                    }
+    // If a state file is provided, upload it via /state/<session_id>
+    if let Some(ref state_path) = state_file {
+        match std::fs::read(state_path) {
+            Ok(bytes) => {
+                if let Err(err) = post_state(&client, &signal_url, &session_id, &bytes).await {
+                    eprintln!("[braid-rs] warning: failed to push state blob: {err}");
                 }
+            }
+            Err(err) => {
+                eprintln!("[braid-rs] warning: state file not readable: {err}");
             }
         }
     }
 
     let link = SessionLink {
         session_id: session_id.clone(),
-        signal_url: signal_url_effective.clone(),
-        manifest_path: if signal_url_effective.is_some() {
-            None
-        } else {
-            Some(manifest_path.to_string_lossy().to_string())
-        },
+        signal_url: Some(signal_url.clone()),
     };
 
     println!("[braid-rs] Session created");
@@ -348,14 +325,12 @@ async fn run_join(
 
     let client = Client::new();
 
-    let manifest_json = if let Some(ref url) = link.signal_url {
-        get_manifest(&client, url, &link.session_id).await?
-    } else if let Some(ref manifest_path) = link.manifest_path {
-        std::fs::read_to_string(manifest_path)
-            .map_err(|e| format!("failed to read manifest: {e}"))?
-    } else {
-        return Err("invalid SessionLink: no signaling URL or manifest path".into());
-    };
+    let signal_url = link
+        .signal_url
+        .as_ref()
+        .ok_or_else(|| "invalid SessionLink: missing signaling URL".to_string())?;
+
+    let manifest_json = get_manifest(&client, signal_url, &link.session_id).await?;
 
     let manifest = GameManifest::from_json(&manifest_json)
         .map_err(|e| format!("failed to parse manifest: {e}"))?;

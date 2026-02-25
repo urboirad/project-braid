@@ -1,62 +1,12 @@
-   0.289361503s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint: stale: changed "/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/cli.rs"
-   0.289379428s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint:           (vs) "/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-9350dfd64eecc566/dep-bin-braid-rs"
-   0.289384767s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint:                FileTime { seconds: 1772029067, nanos: 37134412 } < FileTime { seconds: 1772029666, nanos: 494456683 }
-   0.294121728s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint: fingerprint dirty for braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)/Check { test: false }/TargetInner { name: "braid-rs", doc: true, ..: with_path("/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/main.rs", Edition2021) }
-   0.294157439s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleItem(ChangedFile { reference: "/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-9350dfd64eecc566/dep-bin-braid-rs", reference_mtime: FileTime { seconds: 1772029067, nanos: 37134412 }, stale: "/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/cli.rs", stale_mtime: FileTime { seconds: 1772029666, nanos: 494456683 } }))
-   0.315291783s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint: stale: changed "/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/cli.rs"
-   0.315341705s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint:           (vs) "/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-f2487861a62a155c/dep-test-bin-braid-rs"
-   0.315346565s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint:                FileTime { seconds: 1772029067, nanos: 37134412 } < FileTime { seconds: 1772029666, nanos: 494456683 }
-   0.315559030s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint: fingerprint dirty for braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)/Check { test: true }/TargetInner { name: "braid-rs", doc: true, ..: with_path("/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/main.rs", Edition2021) }
-   0.315577266s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleItem(ChangedFile { reference: "/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-f2487861a62a155c/dep-test-bin-braid-rs", reference_mtime: FileTime { seconds: 1772029067, nanos: 37134412 }, stale: "/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/cli.rs", stale_mtime: FileTime { seconds: 1772029666, nanos: 494456683 } }))
-   0.317791171s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint: fingerprint error for braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)/Check { test: false }/TargetInner { name: "braid-rs-gui", doc: true, ..: with_path("/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/bin/gui.rs", Edition2021) }
-   0.317864149s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-d17af5934b1975aa/bin-braid-rs-gui`
-
-Caused by:
-    No such file or directory (os error 2)
-
-Stack backtrace:
-   0: <unknown>
-   1: <unknown>
-   2: <unknown>
-   3: <unknown>
-   4: <unknown>
-   5: <unknown>
-   6: <unknown>
-   7: <unknown>
-   8: <unknown>
-   9: <unknown>
-  10: <unknown>
-  11: <unknown>
-  12: <unknown>
-  13: <unknown>
-  14: <unknown>
-  15: __libc_start_main
-  16: <unknown>
-   0.320830189s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint: fingerprint error for braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)/Check { test: true }/TargetInner { name: "braid-rs-gui", doc: true, ..: with_path("/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/bin/gui.rs", Edition2021) }
-   0.320845612s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-798e3e21d879e974/test-bin-braid-rs-gui`
-
-Caused by:
-    No such file or directory (os error 2)
-
-Stack backtrace:
-   0: <unknown>
-   1: <unknown>
-   2: <unknown>
-   3: <unknown>
-   4: <unknown>
-   5: <unknown>
-   6: <unknown>
-   7: <unknown>
-   8: <unknown>
-   9: <unknown>
-  10: <unknown>
-  11: <unknown>
-  12: <unknown>
-  13: <unknown>
-  14: <unknown>
-  15: __libc_start_main
-  16: <unknown>
+   0.353541064s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint: stale: changed "/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/bin/gui.rs"
+   0.353558794s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint:           (vs) "/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-d17af5934b1975aa/dep-bin-braid-rs-gui"
+   0.353576100s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint:                FileTime { seconds: 1772030736, nanos: 118388732 } < FileTime { seconds: 1772030746, nanos: 865612016 }
+   0.353639748s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint: fingerprint dirty for braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)/Check { test: false }/TargetInner { name: "braid-rs-gui", doc: true, ..: with_path("/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/bin/gui.rs", Edition2021) }
+   0.353659460s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleItem(ChangedFile { reference: "/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-d17af5934b1975aa/dep-bin-braid-rs-gui", reference_mtime: FileTime { seconds: 1772030736, nanos: 118388732 }, stale: "/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/bin/gui.rs", stale_mtime: FileTime { seconds: 1772030746, nanos: 865612016 } }))
+   0.355743615s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint: stale: changed "/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/bin/gui.rs"
+   0.355758009s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint:           (vs) "/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-798e3e21d879e974/dep-test-bin-braid-rs-gui"
+   0.355763447s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint:                FileTime { seconds: 1772030736, nanos: 118388732 } < FileTime { seconds: 1772030746, nanos: 865612016 }
+   0.355841766s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint: fingerprint dirty for braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)/Check { test: true }/TargetInner { name: "braid-rs-gui", doc: true, ..: with_path("/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/bin/gui.rs", Edition2021) }
+   0.355854706s  INFO prepare_target{force=false package_id=braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs) target="braid-rs-gui"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleItem(ChangedFile { reference: "/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/.fingerprint/braid-rs-798e3e21d879e974/dep-test-bin-braid-rs-gui", reference_mtime: FileTime { seconds: 1772030736, nanos: 118388732 }, stale: "/home/urboirad/Documents/GitHub/project-braid/braid-rs/src/bin/gui.rs", stale_mtime: FileTime { seconds: 1772030746, nanos: 865612016 } }))
     Checking braid-rs v0.1.0 (/home/urboirad/Documents/GitHub/project-braid/braid-rs)
-error: could not compile `braid-rs` (bin "braid-rs-gui" test) due to 1 previous error; 1 warning emitted
-warning: build failed, waiting for other jobs to finish...
-error: could not compile `braid-rs` (bin "braid-rs-gui") due to 1 previous error; 1 warning emitted
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.54s

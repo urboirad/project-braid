@@ -2,7 +2,7 @@
 
 Project Braid is a lightweight wrapper and orchestration layer for retro emulators.
 
-This repo currently contains a **prototype CLI** that implements the early pieces of
+This repo currently contains a **Rust prototype CLI** that implements the early pieces of
 the design:
 
 - Generate a JSON manifest for a ROM (title, hash, core, sync settings).
@@ -15,24 +15,27 @@ top of this shell.
 
 ## Requirements
 
-- Python 3.10+ (tested with the system Python on Linux).
+- Rust 1.75+ with Cargo (tested on Linux).
 
-No external dependencies are required; everything uses the Python standard library.
+The Rust crate uses a handful of common crates (clap, tokio, reqwest, egui, etc.) which
+Cargo will fetch automatically.
 
 ## Quick start
 
 From the project root:
 
 ```bash
-python main.py -h
+cd braid-rs
+cargo run --bin braid-rs -- --help
 ```
 
-You should see the `braid` help with `host` and `join` subcommands.
+You should see the `braid-rs` help with `host`, `join`, `nat-server`, and `state` subcommands.
 
 ### 1. Host a session
 
 ```bash
-python main.py host /path/to/game.sfc \
+cd braid-rs
+cargo run --bin braid-rs -- host /path/to/game.sfc \
 	--session-dir ./sessions
 ```
 
@@ -48,7 +51,8 @@ For now, the manifest path is a local file path, so the joiner needs access to
 the same file (e.g., shared folder, or you copy it there manually):
 
 ```bash
-python main.py join "braid://<session_id>?manifest=/abs/path/to/manifest.json" \
+cd braid-rs
+cargo run --bin braid-rs -- join "braid://<session_id>?manifest=/abs/path/to/manifest.json" \
 	--rom /path/to/game.sfc
 ```
 

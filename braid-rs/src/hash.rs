@@ -5,8 +5,8 @@ use std::path::Path;
 
 /// Compute a stable SHA1 hash for ROM identity matching.
 ///
-/// This mirrors the Python prototype and returns the full 40-character hex
-/// digest so manifests stay compatible across implementations.
+/// This returns the full 40-character hex digest so manifests stay
+/// compatible across implementations.
 pub fn compute_rom_hash(path: &Path) -> io::Result<String> {
     let mut file = File::open(path)?;
     let mut hasher = Sha1::new();

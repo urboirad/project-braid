@@ -29,7 +29,7 @@ fi
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT_DIR"
 
-# Start signaling server in the background
+# Start signaling server in the background (Python prototype, used by Rust CLI)
 python signaling_server.py &
 SIGNAL_PID=$!
 
@@ -45,11 +45,12 @@ sleep 1
 echo "[demo] Hosting session for ROM: $ROM_PATH"
 
 echo
-python main.py host "$ROM_PATH" \
-  --session-dir ./sessions \
+cd "$ROOT_DIR/braid-rs"
+cargo run --bin braid-rs -- host "$ROM_PATH" \
+  --session-dir ../sessions \
   --signal-url http://localhost:8080 \
   --dry-run
 
 echo
 echo "[demo] Use the printed braid:// link on the joining machine, e.g.:"
-echo "  python main.py join \"braid://<session_id>?signal=http%3A%2F%2Flocalhost%3A8080\" --rom '$ROM_PATH' --dry-run"
+echo "  cd braid-rs && cargo run --bin braid-rs -- join \"braid://<session_id>?signal=http%3A%2F%2Flocalhost%3A8080\" --rom '$ROM_PATH' --dry-run"

@@ -1,0 +1,10 @@
+/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/deps/wayland_client-24e6f2c4f6744c7c.d: /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/lib.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/conn.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/event_queue.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/globals.rs
+
+/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/deps/libwayland_client-24e6f2c4f6744c7c.rlib: /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/lib.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/conn.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/event_queue.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/globals.rs
+
+/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/deps/libwayland_client-24e6f2c4f6744c7c.rmeta: /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/lib.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/conn.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/event_queue.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/globals.rs
+
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/lib.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/conn.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/event_queue.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-client-0.31.12/src/globals.rs:

@@ -1,0 +1,14 @@
+/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/deps/thiserror-fa56c9bbccdf651b.d: /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/lib.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/aserror.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/display.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/var.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/private.rs /home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/build/thiserror-db94937b2686abcd/out/private.rs
+
+/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/deps/libthiserror-fa56c9bbccdf651b.rlib: /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/lib.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/aserror.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/display.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/var.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/private.rs /home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/build/thiserror-db94937b2686abcd/out/private.rs
+
+/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/deps/libthiserror-fa56c9bbccdf651b.rmeta: /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/lib.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/aserror.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/display.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/var.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/private.rs /home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/build/thiserror-db94937b2686abcd/out/private.rs
+
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/lib.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/aserror.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/display.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/var.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/private.rs:
+/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/build/thiserror-db94937b2686abcd/out/private.rs:
+
+# env-dep:OUT_DIR=/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/build/thiserror-db94937b2686abcd/out

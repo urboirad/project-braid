@@ -1,0 +1,10 @@
+/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/deps/ecolor-b80dac588b3313d9.d: /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/lib.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/color32.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/hsva_gamma.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/hsva.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/rgba.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/hex_color_runtime.rs
+
+/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/deps/libecolor-b80dac588b3313d9.rmeta: /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/lib.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/color32.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/hsva_gamma.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/hsva.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/rgba.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/hex_color_runtime.rs
+
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/lib.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/color32.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/hsva_gamma.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/hsva.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/rgba.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ecolor-0.33.3/src/hex_color_runtime.rs:

@@ -1,0 +1,10 @@
+/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/deps/zbus_macros-c2e9f6895b41e373.d: /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/lib.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/error.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/iface.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/proxy.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/utils.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/../README.md
+
+/home/urboirad/Documents/GitHub/project-braid/braid-rs/target/debug/deps/libzbus_macros-c2e9f6895b41e373.so: /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/lib.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/error.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/iface.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/proxy.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/utils.rs /home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/../README.md
+
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/lib.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/error.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/iface.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/proxy.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/utils.rs:
+/home/urboirad/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_macros-5.14.0/src/../README.md:
